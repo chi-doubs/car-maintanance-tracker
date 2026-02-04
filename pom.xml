@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>25</java.version>
 		<spring-modulith.version>2.0.1</spring-modulith.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<openapi-generator-maven-plugin.version>7.17.0</openapi-generator-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -75,6 +78,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok-mapstruct-binding</artifactId>
+			<version>${lombok-mapstruct-binding.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers-junit-jupiter</artifactId>
 			<scope>test</scope>
@@ -99,6 +112,55 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator-maven-plugin.version}</version>
+				<configuration>
+					<apiNameSuffix>ControllerApi</apiNameSuffix>
+					<generatorName>spring</generatorName>
+					<generateApis>true</generateApis>
+					<generateModels>true</generateModels>
+					<generateApiTests>false</generateApiTests>
+					<generateModelTests>false</generateModelTests>
+					<generateSupportingFiles>false</generateSupportingFiles>
+					<modelNameSuffix>DTO</modelNameSuffix>
+					<skipOperationExample>true</skipOperationExample>
+					<templateDirectory>${project.basedir}/src/main/resources/openapi/templates</templateDirectory>
+					<configOptions>
+						<additionalModelTypeAnnotations>
+							@lombok.NoArgsConstructor
+							@lombok.AllArgsConstructor
+							@lombok.ToString
+							@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+						</additionalModelTypeAnnotations>
+						<annotationLibrary>swagger2</annotationLibrary>
+						<apiDocs>true</apiDocs>
+						<generateConstructorWithAllArgs>false</generateConstructorWithAllArgs>
+						<generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+						<interfaceOnly>true</interfaceOnly>
+						<library>spring-boot</library>
+						<dateLibrary>java8-localdatetime</dateLibrary>
+						<useResponseEntity>false</useResponseEntity>
+						<useSpringBoot3>true</useSpringBoot3>
+						<useTags>true</useTags>
+						<useEnumCaseInsensitive>true</useEnumCaseInsensitive>
+					</configOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>User API</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/contracts/auth.yaml</inputSpec>
+							<apiPackage>com.example.car_maintanance_tracker.user.api</apiPackage>
+							<modelPackage>com.example.car_maintanance_tracker.user.api.model</modelPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
