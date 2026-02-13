@@ -19,6 +19,8 @@
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<openapi-generator-maven-plugin.version>7.17.0</openapi-generator-maven-plugin.version>
+		<springdoc-openapi-starter-webmvc-ui.version>3.0.1</springdoc-openapi-starter-webmvc-ui.version>
+		<jackson-databind-nullable.version>0.2.8</jackson-databind-nullable.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -88,6 +90,16 @@
 			<version>${lombok-mapstruct-binding.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers-junit-jupiter</artifactId>
 			<scope>test</scope>
@@ -126,7 +138,6 @@
 					<generateSupportingFiles>false</generateSupportingFiles>
 					<modelNameSuffix>DTO</modelNameSuffix>
 					<skipOperationExample>true</skipOperationExample>
-					<templateDirectory>${project.basedir}/src/main/resources/openapi/templates</templateDirectory>
 					<configOptions>
 						<additionalModelTypeAnnotations>
 							@lombok.NoArgsConstructor
@@ -154,9 +165,11 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/contracts/auth.yaml</inputSpec>
-							<apiPackage>com.example.car_maintanance_tracker.user.api</apiPackage>
-							<modelPackage>com.example.car_maintanance_tracker.user.api.model</modelPackage>
+							<inputSpec>${project.basedir}/contracts/api.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.example.api</apiPackage>
+							<modelPackage>com.example.model</modelPackage>
+							<output>${project.build.directory}/generated-sources/openapi</output>
 						</configuration>
 					</execution>
 				</executions>
