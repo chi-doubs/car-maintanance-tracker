@@ -1,7 +1,9 @@
 package com.example.car_maintanance_tracker.users;
 
 
+import com.example.car_maintanance_tracker.users.mapper.UserMapper;
 import com.example.car_maintanance_tracker.users.repository.UserRepository;
+import com.example.car_maintanance_tracker.users.repository.entity.UserEntity;
 import com.example.model.UserRegistrationRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,12 +13,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-
-    private final PasswordEncoder passwordEncoder;
-
     private final UserRepository userRepository;
 
-    public UserDTO create(UserRegistrationRequestDTO userRegistrationRequestDTO) {
-        return null;
+    private final UserMapper mapper;
+
+    public UserDTO create(UserRegistrationRequestDTO requestDTO) {
+        UserEntity entity = userRepository.save(mapper.toUserEntity(requestDTO));
+        return mapper.toUserDTO(entity);
     }
 }
