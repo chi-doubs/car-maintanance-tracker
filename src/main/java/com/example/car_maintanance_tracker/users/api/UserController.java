@@ -1,6 +1,7 @@
 package com.example.car_maintanance_tracker.users.api;
 
 import com.example.api.UsersControllerApi;
+import com.example.car_maintanance_tracker.users.UserDTO;
 import com.example.car_maintanance_tracker.users.UserService;
 import com.example.model.UserRegistrationRequestDTO;
 import com.example.model.UserResponseDTO;
@@ -15,6 +16,7 @@ public class UserController implements UsersControllerApi {
 
     @Override
     public UserResponseDTO create(UserRegistrationRequestDTO userRegistrationRequestDTO) {
-        return UsersControllerApi.super.create(userRegistrationRequestDTO);
+        UserDTO create =userService.create(userRegistrationRequestDTO);
+        return null;
     }
 }
