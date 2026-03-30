@@ -54,4 +54,30 @@ class UserControllerIntegrationTest {
         }
 
 
+        @Test
+        void shouldNotRegisterUserBecausePasswordsAreNotEqual() throws Exception {
+            String requestBody = """
+        {
+            "email": "test@example.com",
+            "password": "SomePassword123",
+            "passwordRepeat": "AnotherPassword123"
+        }
+        """;
+
+//            String expectedResponse = """
+//                            {
+//                            "id": "${json-unit.any-number}",
+//                            "email": "test@example.com"
+//                            }
+//                            """;
+
+            mockMvc.perform(post(PATH_CREATE)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .contentType("application/json")
+                            .content(requestBody))
+                    .andExpect(status().isBadRequest());
+                   // .andExpect(json().isEqualTo(expectedResponse));
+
+        }
+
     }
