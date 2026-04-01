@@ -6,9 +6,9 @@ permissions:
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
   jobs:
     build:
@@ -26,7 +26,7 @@ on:
             cache: maven
 
         - name: Build with Maven (without tests)
-          rum: mvn -B package -DskipTests --file pom.xml
+          run: mvn -B package -DskipTests --file pom.xml
 
     test:
       runs-on: ubuntu-latest
